@@ -49,8 +49,7 @@ class Expander
         if ($reference_array) {
             $reference_data = new Data($reference_array);
             self::doExpandProperties($data, $array, '', $reference_data);
-        }
-        else {
+        } else {
             self::doExpandProperties($data, $array);
         }
 
@@ -67,6 +66,9 @@ class Expander
      * @param string $parent_keys
      *   The parent keys of the current key in dot notation. This is used to
      *   track the absolute path to the current key in recursive cases.
+     * @param Data|null $reference_data
+     *   A reference data object. This is not operated upon but is used as a
+     *   reference to provide supplemental values.
      */
     protected static function doExpandProperties(
       $data,
@@ -79,45 +81,74 @@ class Expander
             if (is_null($value) || is_bool($value)) {
                 continue;
             }
-
             // Recursive case.
             if (is_array($value)) {
                 self::doExpandProperties($data, $value, $parent_keys . "$key");
-            } // Base case.
+            }
+            // Base case.
             else {
-                // We loop through all placeholders in a given string.
-                // E.g., '${placeholder1} ${placeholder2}' requires two replacements.
-                while (strpos($value, '${') !== false) {
-                    $original_value = $value;
-                    $value = preg_replace_callback(
-                      '/\$\{([^\$}]+)\}/',
-                      function ($matches) use ($data, $reference_data) {
-                          return self::expandPropertyCallback($matches, $data,
-                            $reference_data);
-                      },
-                      $value
-                    );
-
-                    // If no replacement occurred at all, break to prevent
-                    // infinite loop.
-                    if ($original_value == $value) {
-                        break;
-                    }
-
-                    // Set value on $data object.
-                    if ($parent_keys) {
-                        $full_key = $parent_keys . ".$key";
-                    } else {
-                        $full_key = $key;
-                    }
-                    $data->set($full_key, $value);
-                }
+                self::expandProperty($data, $parent_keys, $reference_data, $value, $key);
             }
         }
     }
 
     /**
-     * Expansion callback used with preg_replace_callback().
+     * Expand a single property.
+     *
+     * @param Data $data
+     *   A data object, containing the $array.
+     * @param string $parent_keys
+     *   The parent keys of the current key in dot notation. This is used to
+     *   track the absolute path to the current key in recursive cases.
+     * @param Data|null $reference_data
+     *   A reference data object. This is not operated upon but is used as a
+     *   reference to provide supplemental values.
+     * @param string $value
+     *   The unexpanded property value.
+     * @param string $key
+     *   The immediate key of the property.
+     *
+     * @return mixed
+     */
+    protected static function expandProperty(
+      $data,
+      $parent_keys,
+      $reference_data,
+      $value,
+      $key
+    ) {
+        // We loop through all placeholders in a given string.
+        // E.g., '${placeholder1} ${placeholder2}' requires two replacements.
+        while (strpos($value, '${') !== false) {
+            $original_value = $value;
+            $value = preg_replace_callback(
+              '/\$\{([^\$}]+)\}/',
+              function ($matches) use ($data, $reference_data) {
+                  return self::expandPropertyCallback($matches, $data,
+                    $reference_data);
+              },
+              $value
+            );
+
+            // If no replacement occurred at all, break to prevent
+            // infinite loop.
+            if ($original_value == $value) {
+                break;
+            }
+
+            // Set value on $data object.
+            if ($parent_keys) {
+                $full_key = $parent_keys . ".$key";
+            } else {
+                $full_key = $key;
+            }
+            $data->set($full_key, $value);
+        }
+        return $value;
+    }
+
+    /**
+     * Expansion callback used by preg_replace_callback() in expandProperty().
      *
      * @param array $matches
      *   An array of matches created by preg_replace_callback().
