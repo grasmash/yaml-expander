@@ -17,4 +17,4 @@ summary: ${book.title} by ${book.author}
 # This is a complete fake property.
 publisher: ${not.real.property}
 # series.books is not defined in this YAML file, but is passed in to the parser by the application.
-sequels: ${series.books}
+sequels: ${book.sequel}, and others.

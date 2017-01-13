@@ -24,10 +24,10 @@ class Expander
      *   The modified array in which placeholders have been replaced with
      *   values.
      */
-    public static function parse($yaml_string, $additional_properties = [])
+    public static function parse($yaml_string, $reference_array = [])
     {
         $array = Yaml::parse($yaml_string);
-        return self::expandArrayProperties($array, $additional_properties = []);
+        return self::expandArrayProperties($array, $reference_array = []);
     }
 
 
@@ -50,7 +50,7 @@ class Expander
             $reference_data = new Data($reference_array);
         }
 
-        self::doExpandProperties($data, $array);
+        self::doExpandProperties($data, $array, '', $reference_data);
 
         return $data->export();
     }
@@ -81,8 +81,7 @@ class Expander
             // Recursive case.
             if (is_array($value)) {
                 self::doExpandProperties($data, $value, $parent_keys . "$key");
-            }
-            // Base case.
+            } // Base case.
             else {
                 // We loop through all placeholders in a given string.
                 // E.g., '${placeholder1} ${placeholder2}' requires two replacements.
@@ -91,7 +90,8 @@ class Expander
                     $value = preg_replace_callback(
                       '/\$\{([^\$}]+)\}/',
                       function ($matches) use ($data, $reference_data) {
-                          return self::expandPropertyCallback($matches, $data, $reference_data);
+                          return self::expandPropertyCallback($matches, $data,
+                            $reference_data);
                       },
                       $value
                     );
@@ -105,8 +105,7 @@ class Expander
                     // Set value on $data object.
                     if ($parent_keys) {
                         $full_key = $parent_keys . ".$key";
-                    }
-                    else {
+                    } else {
                         $full_key = $key;
                     }
                     $data->set($full_key, $value);
@@ -129,18 +128,21 @@ class Expander
      *
      * @return mixed
      */
-    public static function expandPropertyCallback($matches, $data, $reference_data = null)
-    {
+    public static function expandPropertyCallback(
+      $matches,
+      $data,
+      $reference_data = null
+    ) {
         $property_name = $matches[1];
         $unexpanded_value = $matches[0];
 
         // Use only values within the subject array's data.
         if (!$reference_data) {
             return self::searchData($property_name, $unexpanded_value, $data);
-        }
-        // Search both the subject array's data and the reference data for a value.
+        } // Search both the subject array's data and the reference data for a value.
         else {
-            return self::searchSubjectAndReferenceData($property_name, $unexpanded_value, $data, $reference_data);
+            return self::searchSubjectAndReferenceData($property_name,
+              $unexpanded_value, $data, $reference_data);
         }
     }
 
@@ -160,10 +162,17 @@ class Expander
      * @return string
      *   The expanded string.
      */
-    public static function searchSubjectAndReferenceData($property_name, $unexpanded_value, $data, $reference_data) {
-        $expanded_value = self::searchData($property_name, $unexpanded_value, $data);
+    public static function searchSubjectAndReferenceData(
+      $property_name,
+      $unexpanded_value,
+      $data,
+      $reference_data
+    ) {
+        $expanded_value = self::searchData($property_name, $unexpanded_value,
+          $data);
         if ($expanded_value == $unexpanded_value) {
-            $expanded_value = self::searchData($property_name, $unexpanded_value, $reference_data);
+            $expanded_value = self::searchData($property_name,
+              $unexpanded_value, $reference_data);
         }
 
         return $expanded_value;
@@ -181,12 +190,12 @@ class Expander
      *
      * @return mixed
      */
-    public static function searchData($property_name, $unexpanded_value, $data) {
+    public static function searchData($property_name, $unexpanded_value, $data)
+    {
         if (!$data->has($property_name)) {
             self::log("Property \${'$property_name'} could not be expanded.");
             return $unexpanded_value;
-        }
-        else {
+        } else {
             $expanded_value = $data->get($property_name);
             self::log("Expanding property \${'$property_name'} => $expanded_value.");
             return $expanded_value;
