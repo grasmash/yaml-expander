@@ -27,7 +27,7 @@ class Expander
     public static function parse($yaml_string, $reference_array = [])
     {
         $array = Yaml::parse($yaml_string);
-        return self::expandArrayProperties($array, $reference_array = []);
+        return self::expandArrayProperties($array, $reference_array);
     }
 
 
@@ -48,9 +48,11 @@ class Expander
         $data = new Data($array);
         if ($reference_array) {
             $reference_data = new Data($reference_array);
+            self::doExpandProperties($data, $array, '', $reference_data);
         }
-
-        self::doExpandProperties($data, $array, '', $reference_data);
+        else {
+            self::doExpandProperties($data, $array);
+        }
 
         return $data->export();
     }
@@ -109,7 +111,6 @@ class Expander
                         $full_key = $key;
                     }
                     $data->set($full_key, $value);
-
                 }
             }
         }
