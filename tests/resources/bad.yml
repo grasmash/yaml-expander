@@ -1,6 +1,0 @@
-# This file contains invalid YAML.
-- test:
-something: {
-
-}
-else: this

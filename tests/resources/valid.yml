@@ -1,0 +1,17 @@
+# This file should contain only valid YAML.
+book:
+  title: Dune
+  author: Frank Herbert
+  copyright: ${book.author} 1965
+  protaganist: ${characters.0.name}
+characters:
+  - name: Paul Atreides
+    occupation: Kwisatz Haderach
+    aliases:
+      - Usul
+      - Muad'Dib
+      - The Preacher
+  - name: Duncan Idaho
+    occupation: Swordmaster
+summary: ${book.title} by ${book.author}
+#publisher: ${not.real.property}

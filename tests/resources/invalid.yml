@@ -1,0 +1,6 @@
+# This file should contain invalid YAML.
+- test:
+something: {
+
+}
+else: this

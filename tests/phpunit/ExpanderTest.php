@@ -10,15 +10,17 @@ class ExpanderTest extends TestBase
 {
 
     /**
-     *
+     * @param $filename
      *
      * @dataProvider providerTestExpandProperties
      */
     public function testExpandProperties($filename)
     {
-        $array= Yaml::parse(file_get_contents(__DIR__ . '/../resources/good.yml'));
+        $array= Yaml::parse(file_get_contents(__DIR__ . "/../resources/$filename"));
         $expanded = Expander::expandProperties($array);
         $this->assertEquals('Frank Herbert 1965', $expanded['book']['copyright']);
+        $this->assertEquals('Paul Atreides', $expanded['book']['protaganist']);
+        $this->assertEquals('Dune by Frank Herbert', $expanded['summary']);
     }
 
     /**
@@ -30,7 +32,7 @@ class ExpanderTest extends TestBase
     public function providerTestExpandProperties()
     {
         return [
-            ['good.yml'],
+            ['valid.yml'],
         ];
     }
 }
