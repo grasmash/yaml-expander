@@ -30,4 +30,4 @@ script:
   - ./scripts/run-tests.sh
 
 after_success:
-  - travis_retry php vendor/bin/coveralls
+  - ./vendor/bin/coveralls -vvv
