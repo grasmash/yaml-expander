@@ -2,6 +2,7 @@
 
 namespace Grasmash\YamlExpander\Tests\Command;
 
+use Dflydev\DotAccessData\Data;
 use Grasmash\YamlExpander\Expander;
 use Grasmash\YamlExpander\Tests\TestBase;
 use Symfony\Component\Yaml\Yaml;
@@ -10,12 +11,14 @@ class ExpanderTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
+     * Tests Expander::expandArrayProperties().
+     *
      * @param string $filename
      * @param array $reference_array
      *
      * @dataProvider providerYaml
      */
-    public function testExpandProperties($filename, $reference_array)
+    public function testExpandArrayProperties($filename, $reference_array)
     {
         $array = Yaml::parse(file_get_contents(__DIR__ . "/../resources/$filename"));
         $expanded = Expander::expandArrayProperties($array);
@@ -30,7 +33,10 @@ class ExpanderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param $filename
+     * Tests Expander::parse().
+     *
+     * @param string $filename
+     * @param array $reference_array
      *
      * @dataProvider providerYaml
      */
@@ -59,6 +65,27 @@ class ExpanderTest extends \PHPUnit_Framework_TestCase
               'sequel' => 'Dune Messiah'
             ]
           ]],
+        ];
+    }
+
+    /**
+     * Tests Expander::expandProperty().
+     *
+     * @dataProvider providerTestExpandProperty
+     */
+    public function testExpandProperty($array, $property_name, $unexpanded_string, $expected)
+    {
+        $data = new Data($array);
+        $expanded_value = Expander::expandProperty($property_name, $unexpanded_string, $data);
+
+        $this->assertEquals($expected, $expanded_value);
+    }
+
+    public function providerTestExpandProperty()
+    {
+        return [
+            [ ['author' => 'Frank Herbert'], 'author', '${author}', 'Frank Herbert' ],
+            [ ['book' =>  ['author' => 'Frank Herbert' ]], 'book.author', '${book.author}', 'Frank Herbert' ],
         ];
     }
 }

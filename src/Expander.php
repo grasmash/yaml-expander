@@ -48,9 +48,9 @@ class Expander
         $data = new Data($array);
         if ($reference_array) {
             $reference_data = new Data($reference_array);
-            self::doExpandProperties($data, $array, '', $reference_data);
+            self::doExpandArrayProperties($data, $array, '', $reference_data);
         } else {
-            self::doExpandProperties($data, $array);
+            self::doExpandArrayProperties($data, $array);
         }
 
         return $data->export();
@@ -70,7 +70,7 @@ class Expander
      *   A reference data object. This is not operated upon but is used as a
      *   reference to provide supplemental values.
      */
-    protected static function doExpandProperties(
+    protected static function doExpandArrayProperties(
         $data,
         $array,
         $parent_keys = '',
@@ -83,10 +83,10 @@ class Expander
             }
             // Recursive case.
             if (is_array($value)) {
-                self::doExpandProperties($data, $value, $parent_keys . "$key");
+                self::doExpandArrayProperties($data, $value, $parent_keys . "$key");
             } // Base case.
             else {
-                self::expandProperty($data, $parent_keys, $reference_data, $value, $key);
+                self::expandStringProperties($data, $parent_keys, $reference_data, $value, $key);
             }
         }
     }
@@ -109,7 +109,7 @@ class Expander
      *
      * @return mixed
      */
-    protected static function expandProperty(
+    protected static function expandStringProperties(
         $data,
         $parent_keys,
         $reference_data,
@@ -123,7 +123,7 @@ class Expander
             $value = preg_replace_callback(
                 '/\$\{([^\$}]+)\}/',
                 function ($matches) use ($data, $reference_data) {
-                    return self::expandPropertyCallback(
+                    return self::expandStringPropertiesCallback(
                         $matches,
                         $data,
                         $reference_data
@@ -162,7 +162,7 @@ class Expander
      *
      * @return mixed
      */
-    public static function expandPropertyCallback(
+    public static function expandStringPropertiesCallback(
         $matches,
         $data,
         $reference_data = null
@@ -172,10 +172,10 @@ class Expander
 
         // Use only values within the subject array's data.
         if (!$reference_data) {
-            return self::searchData($property_name, $unexpanded_value, $data);
+            return self::expandProperty($property_name, $unexpanded_value, $data);
         } // Search both the subject array's data and the reference data for a value.
         else {
-            return self::searchSubjectAndReferenceData(
+            return self::expandPropertyWithReferenceData(
                 $property_name,
                 $unexpanded_value,
                 $data,
@@ -200,19 +200,21 @@ class Expander
      * @return string
      *   The expanded string.
      */
-    public static function searchSubjectAndReferenceData(
+    public static function expandPropertyWithReferenceData(
         $property_name,
         $unexpanded_value,
         $data,
         $reference_data
     ) {
-        $expanded_value = self::searchData(
+        $expanded_value = self::expandProperty(
             $property_name,
             $unexpanded_value,
             $data
         );
+        // If the string was not changed using the subject data, try using
+        // the reference data.
         if ($expanded_value == $unexpanded_value) {
-            $expanded_value = self::searchData(
+            $expanded_value = self::expandProperty(
                 $property_name,
                 $unexpanded_value,
                 $reference_data
@@ -234,7 +236,7 @@ class Expander
      *
      * @return mixed
      */
-    public static function searchData($property_name, $unexpanded_value, $data)
+    public static function expandProperty($property_name, $unexpanded_value, $data)
     {
         if (!$data->has($property_name)) {
             self::log("Property \${'$property_name'} could not be expanded.");
