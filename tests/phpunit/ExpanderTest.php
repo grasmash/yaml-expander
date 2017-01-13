@@ -17,7 +17,7 @@ class ExpanderTest extends TestBase
     public function testExpandProperties($filename)
     {
         $array= Yaml::parse(file_get_contents(__DIR__ . "/../resources/$filename"));
-        $expanded = Expander::expandProperties($array);
+        $expanded = Expander::expandArrayProperties($array);
         $this->assertEquals('Frank Herbert 1965', $expanded['book']['copyright']);
         $this->assertEquals('Paul Atreides', $expanded['book']['protaganist']);
         $this->assertEquals('Dune by Frank Herbert', $expanded['summary']);
