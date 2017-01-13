@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/grasmash/yaml-expander.svg?branch=master)](https://travis-ci.org/grasmash/yaml-expander) [![Packagist](https://img.shields.io/packagist/v/grasmash/yaml-expander.svg)](https://packagist.org/packages/grasmash/yaml-expander)
+[![Coverage Status](https://coveralls.io/repos/github/grasmash/yaml-expander/badge.svg?branch=master)](https://coveralls.io/github/grasmash/yaml-expander?branch=master)
 
 This tool expands property references in YAML files.
 
@@ -55,7 +56,7 @@ $reference_properties = ['book' => ['publication-year' => 1965]];
 $expanded = \Grasmash\YamlExpander\Expander::expandArrayProperties($array, $reference_properties);
 print_r($expanded);
 ````
-    
+
 Resultant array:
 
 ```php
