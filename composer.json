@@ -1,0 +1,36 @@
+{
+    "name": "grasmash/yaml-expander",
+    "description": "Expands internal property references in a yaml file.",
+    "type": "library",
+    "require": {
+        "php": ">=5.6",
+        "symfony/yaml":                   "^2.8.11",
+        "symfony/console":                "^2.8.11",
+        "dflydev/dot-access-data":        "dev-master"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Matthew Grasmick"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "Grasmash\\YamlExpander\\":        "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Grasmash\\YamlExpander\\Tests\\": "tests/src/"
+        }
+    },
+    "bin": [
+        "bin/yaml-expander"
+    ],
+    "require-dev": {
+        "squizlabs/php_codesniffer":      "^2.7",
+        "phpunit/phpunit":                "^5.5.4"
+    }
+}

@@ -1,0 +1,9 @@
+book:
+  title: Dune
+  author: Frank Herbert
+  copyright: ${book.author} 1965
+characters:
+  - name: Paul Atreides
+    occupation: Kwisatz Haderach
+  - name: Duncan Idaho
+    occupation: Swordmaster
