@@ -19,6 +19,9 @@ class Expander
      *
      * @param string $yaml_string
      *   A string of YAML.
+     * @param array $reference_array
+     *   Optional. An array of reference values. This is not operated upon but is used as a
+     *   reference to provide supplemental values for property expansion.
      *
      * @return array
      *   The modified array in which placeholders have been replaced with
@@ -68,7 +71,7 @@ class Expander
      *   track the absolute path to the current key in recursive cases.
      * @param Data|null $reference_data
      *   A reference data object. This is not operated upon but is used as a
-     *   reference to provide supplemental values.
+     *   reference to provide supplemental values for property expansion.
      */
     protected static function doExpandArrayProperties(
         $data,
@@ -101,7 +104,7 @@ class Expander
      *   track the absolute path to the current key in recursive cases.
      * @param Data|null $reference_data
      *   A reference data object. This is not operated upon but is used as a
-     *   reference to provide supplemental values.
+     *   reference to provide supplemental values for property expansion.
      * @param string $value
      *   The unexpanded property value.
      * @param string $key
@@ -158,7 +161,7 @@ class Expander
      *   A data object containing the complete array being operated upon.
      * @param Data|null $reference_data
      *   A reference data object. This is not operated upon but is used as a
-     *   reference to provide supplemental values.
+     *   reference to provide supplemental values for property expansion.
      *
      * @return mixed
      */
@@ -195,7 +198,7 @@ class Expander
      *   A data object containing the complete array being operated upon.
      * @param Data|null $reference_data
      *   A reference data object. This is not operated upon but is used as a
-     *   reference to provide supplemental values.
+     *   reference to provide supplemental values for property expansion.
      *
      * @return string
      *   The expanded string.
