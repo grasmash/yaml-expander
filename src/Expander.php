@@ -71,10 +71,10 @@ class Expander
      *   reference to provide supplemental values.
      */
     protected static function doExpandProperties(
-      $data,
-      $array,
-      $parent_keys = '',
-      $reference_data = null
+        $data,
+        $array,
+        $parent_keys = '',
+        $reference_data = null
     ) {
         foreach ($array as $key => $value) {
             // Boundary condition(s).
@@ -84,8 +84,7 @@ class Expander
             // Recursive case.
             if (is_array($value)) {
                 self::doExpandProperties($data, $value, $parent_keys . "$key");
-            }
-            // Base case.
+            } // Base case.
             else {
                 self::expandProperty($data, $parent_keys, $reference_data, $value, $key);
             }
@@ -111,23 +110,26 @@ class Expander
      * @return mixed
      */
     protected static function expandProperty(
-      $data,
-      $parent_keys,
-      $reference_data,
-      $value,
-      $key
+        $data,
+        $parent_keys,
+        $reference_data,
+        $value,
+        $key
     ) {
         // We loop through all placeholders in a given string.
         // E.g., '${placeholder1} ${placeholder2}' requires two replacements.
         while (strpos($value, '${') !== false) {
             $original_value = $value;
             $value = preg_replace_callback(
-              '/\$\{([^\$}]+)\}/',
-              function ($matches) use ($data, $reference_data) {
-                  return self::expandPropertyCallback($matches, $data,
-                    $reference_data);
-              },
-              $value
+                '/\$\{([^\$}]+)\}/',
+                function ($matches) use ($data, $reference_data) {
+                    return self::expandPropertyCallback(
+                        $matches,
+                        $data,
+                        $reference_data
+                    );
+                },
+                $value
             );
 
             // If no replacement occurred at all, break to prevent
@@ -161,9 +163,9 @@ class Expander
      * @return mixed
      */
     public static function expandPropertyCallback(
-      $matches,
-      $data,
-      $reference_data = null
+        $matches,
+        $data,
+        $reference_data = null
     ) {
         $property_name = $matches[1];
         $unexpanded_value = $matches[0];
@@ -173,8 +175,12 @@ class Expander
             return self::searchData($property_name, $unexpanded_value, $data);
         } // Search both the subject array's data and the reference data for a value.
         else {
-            return self::searchSubjectAndReferenceData($property_name,
-              $unexpanded_value, $data, $reference_data);
+            return self::searchSubjectAndReferenceData(
+                $property_name,
+                $unexpanded_value,
+                $data,
+                $reference_data
+            );
         }
     }
 
@@ -195,16 +201,22 @@ class Expander
      *   The expanded string.
      */
     public static function searchSubjectAndReferenceData(
-      $property_name,
-      $unexpanded_value,
-      $data,
-      $reference_data
+        $property_name,
+        $unexpanded_value,
+        $data,
+        $reference_data
     ) {
-        $expanded_value = self::searchData($property_name, $unexpanded_value,
-          $data);
+        $expanded_value = self::searchData(
+            $property_name,
+            $unexpanded_value,
+            $data
+        );
         if ($expanded_value == $unexpanded_value) {
-            $expanded_value = self::searchData($property_name,
-              $unexpanded_value, $reference_data);
+            $expanded_value = self::searchData(
+                $property_name,
+                $unexpanded_value,
+                $reference_data
+            );
         }
 
         return $expanded_value;

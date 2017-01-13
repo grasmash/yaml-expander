@@ -6,7 +6,7 @@ use Grasmash\YamlExpander\Expander;
 use Grasmash\YamlExpander\Tests\TestBase;
 use Symfony\Component\Yaml\Yaml;
 
-class ExpanderTest extends TestBase
+class ExpanderTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -25,8 +25,6 @@ class ExpanderTest extends TestBase
         $this->assertEquals('${book.media.1}, hardcover', $expanded['available-products']);
         $this->assertEquals('Dune', $expanded['product-name']);
 
-        var_export($expanded);
-
         $expanded = Expander::expandArrayProperties($array, $reference_array);
         $this->assertEquals('Dune Messiah, and others.', $expanded['sequels']);
     }
@@ -36,7 +34,8 @@ class ExpanderTest extends TestBase
      *
      * @dataProvider providerYaml
      */
-    public function testParse($filename, $reference_array) {
+    public function testParse($filename, $reference_array)
+    {
         $yaml_string = file_get_contents(__DIR__ . "/../resources/$filename");
         $expanded = Expander::parse($yaml_string);
         $this->assertEquals('Frank Herbert 1965', $expanded['book']['copyright']);

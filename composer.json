@@ -21,11 +21,6 @@
             "Grasmash\\YamlExpander\\":        "src/"
         }
     },
-    "autoload-dev": {
-        "psr-4": {
-            "Grasmash\\YamlExpander\\Tests\\": "tests/src/"
-        }
-    },
     "bin": [
         "bin/yaml-expander"
     ],
