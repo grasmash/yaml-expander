@@ -17,11 +17,15 @@ class ExpanderTest extends TestBase
      */
     public function testExpandProperties($filename, $reference_array)
     {
-        $array= Yaml::parse(file_get_contents(__DIR__ . "/../resources/$filename"));
+        $array = Yaml::parse(file_get_contents(__DIR__ . "/../resources/$filename"));
         $expanded = Expander::expandArrayProperties($array);
         $this->assertEquals('Frank Herbert 1965', $expanded['book']['copyright']);
         $this->assertEquals('Paul Atreides', $expanded['book']['protaganist']);
         $this->assertEquals('Dune by Frank Herbert', $expanded['summary']);
+        $this->assertEquals('${book.media.1}, hardcover', $expanded['available-products']);
+        $this->assertEquals('Dune', $expanded['product-name']);
+
+        var_export($expanded);
 
         $expanded = Expander::expandArrayProperties($array, $reference_array);
         $this->assertEquals('Dune Messiah, and others.', $expanded['sequels']);
@@ -38,6 +42,7 @@ class ExpanderTest extends TestBase
         $this->assertEquals('Frank Herbert 1965', $expanded['book']['copyright']);
         $this->assertEquals('Paul Atreides', $expanded['book']['protaganist']);
         $this->assertEquals('Dune by Frank Herbert', $expanded['summary']);
+        $this->assertEquals('${book.media.1}, hardcover', $expanded['available-products']);
 
         $expanded = Expander::parse($yaml_string, $reference_array);
         $this->assertEquals('Dune Messiah, and others.', $expanded['sequels']);

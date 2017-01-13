@@ -1,9 +1,12 @@
 # This file should contain only valid YAML.
+type: book
 book:
   title: Dune
   author: Frank Herbert
   copyright: ${book.author} 1965
   protaganist: ${characters.0.name}
+  media:
+    - hardcover
 characters:
   - name: Paul Atreides
     occupation: Kwisatz Haderach
@@ -18,3 +21,7 @@ summary: ${book.title} by ${book.author}
 publisher: ${not.real.property}
 # series.books is not defined in this YAML file, but is passed in to the parser by the application.
 sequels: ${book.sequel}, and others.
+# Reference one real value and one fake value.
+available-products: ${book.media.1}, ${book.media.0}
+# Nested property, should resolve to ${book.title} and then 'Dune'.
+product-name: ${${type}.title}

@@ -239,6 +239,6 @@ class Expander
      */
     public static function log($message)
     {
-        print "$message\n";
+        // print "$message\n";
     }
 }

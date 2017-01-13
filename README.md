@@ -1,36 +1,98 @@
 [![Build Status](https://travis-ci.org/grasmash/yaml-cli.svg?branch=master)](https://travis-ci.org/grasmash/yaml-cli) [![Packagist](https://img.shields.io/packagist/v/grasmash/yaml-cli.svg)](https://packagist.org/packages/grasmash/yaml-cli)
 
-Yet another  command line tool for reading and manipulating yaml files, built on the [Symfony console component](http://symfony.com/doc/current/components/console.html).
-
-### Commands:
-
-
-| Command      | Description                                         |
-|--------------| ----------------------------------------------------|
-| get:value    | Get a value for a specific key in a YAML file.      |
-| lint         | Validates that a given YAML file has valid syntax.  |
-| unset:key    | Unset a specific key in a YAML file.                |
-| update:key   | Change a specific key in a YAML file.               |
-| update:value | Update the value for a specific key in a YAML file. |
+This tool expands property references in YAML files.
 
 ### Installation
 
-    composer require grasmash/yaml-cli
+    composer require grasmash/yaml-expander
 
 ### Example usage:
 
-    ./vendor/bin/yaml-cli get:value somefile.yml some-key
-    ./vendor/bin/yaml-cli lint somefile.yml
-    ./vendor/bin/yaml-cli unset:value somefile.yml some-key
-    ./vendor/bin/yaml-cli update:key somefile.yml old-key new-key
-    ./vendor/bin/yaml-cli update:value somefile.yml some-key some-value
+Example dune.yml:
 
-### Similar tools:
+```yaml
+    type: book
+    book:
+      title: Dune
+      author: Frank Herbert
+      copyright: ${book.author} 1965
+      protaganist: ${characters.0.name}
+      media:
+        - hardcover
+    characters:
+      - name: Paul Atreides
+        occupation: Kwisatz Haderach
+        aliases:
+          - Usul
+          - Muad'Dib
+          - The Preacher
+      - name: Duncan Idaho
+        occupation: Swordmaster
+    summary: ${book.title} by ${book.author}
+    product-name: ${${type}.title}
+```
 
-- Javascript - https://github.com/pandastrike/yaml-cli
-- Ruby - https://github.com/rubyworks/yaml_command
-- Python - https://github.com/0k/shyaml
+Property references use dot notation to indicate array keys, and must be wrapped in `${}`.
 
-### Recognition
+Expansion logic:
 
-This project was inspired by the yaml commands in [Drupal Console](https://drupalconsole.com/).
+```php
+    <?php
+    
+    // Parse a yaml string directly, expanding internal property references.
+    $yaml_string = file_get_contents("dune.yml");
+    $expanded = \Grasmash\YamlExpander\Expander::parse($yaml_string);
+    print_r($expanded);
+    
+    // Parse an array, expanding internal property references.
+    $array = \Symfony\Component\Yaml\Yaml::parse(file_get_contents("dune.yml"));
+    $expanded = \Grasmash\YamlExpander\Expander::expandArrayProperties($array);
+    print_r($expanded);
+    
+    // Parse an array, expanding references using both internal and supplementary values.
+    $array = \Symfony\Component\Yaml\Yaml::parse(file_get_contents("dune.yml"));
+    $reference_properties = ['book' => ['publication-year' => 1965]];
+    $expanded = \Grasmash\YamlExpander\Expander::expandArrayProperties($array, $reference_properties);
+    print_r($expanded);
+````
+    
+Resultant array:
+
+```php
+    <?php
+    
+    array (
+      'type' => 'book',
+      'book' => 
+      array (
+        'title' => 'Dune',
+        'author' => 'Frank Herbert',
+        'copyright' => 'Frank Herbert 1965',
+        'protaganist' => 'Paul Atreides',
+        'media' => 
+        array (
+          0 => 'hardcover',
+        ),
+      ),
+      'characters' => 
+      array (
+        0 => 
+        array (
+          'name' => 'Paul Atreides',
+          'occupation' => 'Kwisatz Haderach',
+          'aliases' => 
+          array (
+            0 => 'Usul',
+            1 => 'Muad\'Dib',
+            2 => 'The Preacher',
+          ),
+        ),
+        1 => 
+        array (
+          'name' => 'Duncan Idaho',
+          'occupation' => 'Swordmaster',
+        ),
+      ),
+      'summary' => 'Dune by Frank Herbert',
+    );
+```
