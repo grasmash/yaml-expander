@@ -29,3 +29,6 @@ before_script:
 
 script:
   - ./scripts/run-tests.sh
+
+after_success:
+  - travis_retry php vendor/bin/coveralls
