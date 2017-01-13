@@ -14,8 +14,6 @@ cache:
 
 before_install:
   - composer selfupdate
-  # Disable xdebug.
-  - phpenv config-rm xdebug.ini
 
 install:
   # Load composer dependencies.
