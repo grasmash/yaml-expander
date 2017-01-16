@@ -30,6 +30,7 @@ class ExpanderTest extends \PHPUnit_Framework_TestCase
 
         $expanded = Expander::expandArrayProperties($array, $reference_array);
         $this->assertEquals('Dune Messiah, and others.', $expanded['sequels']);
+        $this->assertEquals('Dune Messiah', $expanded['book']['nested-reference']);
     }
 
     /**
