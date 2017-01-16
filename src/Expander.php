@@ -86,7 +86,7 @@ class Expander
             }
             // Recursive case.
             if (is_array($value)) {
-                self::doExpandArrayProperties($data, $value, $parent_keys . "$key", $reference_data);
+                self::doExpandArrayProperties($data, $value, $parent_keys . "$key.", $reference_data);
             } // Base case.
             else {
                 self::expandStringProperties($data, $parent_keys, $reference_data, $value, $key);
@@ -143,7 +143,7 @@ class Expander
 
             // Set value on $data object.
             if ($parent_keys) {
-                $full_key = $parent_keys . ".$key";
+                $full_key = $parent_keys . "$key";
             } else {
                 $full_key = $key;
             }
