@@ -7,6 +7,7 @@ book:
   protaganist: ${characters.0.name}
   media:
     - hardcover
+  # Use a nested key to reference an external value.
   nested-reference: ${book.sequel}
 characters:
   - name: Paul Atreides
@@ -30,3 +31,5 @@ product-name: ${${type}.title}
 boolean-value: true
 null-value: null
 inline-array: [ one, two, three ]
+# Attempt to reference an entire array rather than a string. This is invalid.
+expand-array: ${book}

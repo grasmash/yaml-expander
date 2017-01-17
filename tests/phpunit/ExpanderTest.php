@@ -27,10 +27,14 @@ class ExpanderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Dune by Frank Herbert', $expanded['summary']);
         $this->assertEquals('${book.media.1}, hardcover', $expanded['available-products']);
         $this->assertEquals('Dune', $expanded['product-name']);
+        $this->assertEquals('${book}', $expanded['expand-array']);
 
         $expanded = Expander::expandArrayProperties($array, $reference_array);
         $this->assertEquals('Dune Messiah, and others.', $expanded['sequels']);
         $this->assertEquals('Dune Messiah', $expanded['book']['nested-reference']);
+
+        // Attempt to expand an entire array. This should not work.
+        $this->assertEquals('${book}', $expanded['expand-array']);
     }
 
     /**
@@ -52,6 +56,7 @@ class ExpanderTest extends \PHPUnit_Framework_TestCase
 
         $expanded = Expander::parse($yaml_string, $reference_array);
         $this->assertEquals('Dune Messiah, and others.', $expanded['sequels']);
+        $this->assertEquals('Dune Messiah', $expanded['book']['nested-reference']);
     }
 
     /**
@@ -82,6 +87,9 @@ class ExpanderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $expanded_value);
     }
 
+    /**
+     * @return array
+     */
     public function providerTestExpandProperty()
     {
         return [

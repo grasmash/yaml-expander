@@ -246,6 +246,10 @@ class Expander
             return $unexpanded_value;
         } else {
             $expanded_value = $data->get($property_name);
+            if (is_array($expanded_value)) {
+                self::log("\${'$property_name'} is an array and cannot be expanded.");
+                return $unexpanded_value;
+            }
             self::log("Expanding property \${'$property_name'} => $expanded_value.");
             return $expanded_value;
         }
