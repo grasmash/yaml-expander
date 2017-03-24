@@ -27,10 +27,6 @@ install:
   - if [ "$dependencies" = "lowest" ]; then composer update --prefer-dist --prefer-lowest --optimize-autoloader -n; fi;
   - if [ "$dependencies" = "highest" ]; then composer update --prefer-dist --optimize-autoloader -n; fi;
 
-before_script:
-  # Verify that no git diffs (caused by line ending variation) exist.
-  - git diff --exit-code
-
 script:
   - ./scripts/run-tests.sh
 
