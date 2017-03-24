@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "583b72239b3c17712dcf8000d1cb1064",
+    "content-hash": "82f62be99a751652e7c8eb20a82e8151",
     "packages": [
         {
             "name": "dflydev/dot-access-data",
@@ -2059,7 +2059,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=5.4"
+        "php": ">=5.6"
     },
     "platform-dev": []
 }
