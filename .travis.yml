@@ -1,10 +1,17 @@
 language: php
 
-php:
-  - 7
-
 matrix:
   fast_finish: true
+  include:
+    - php: 7.1
+      env: dependencies=highest
+    - php: 7.1
+    - php: 7.0
+    - php: 5.6
+    - php: 5.5
+    - php: 5.4
+    - php: 5.4
+      env: dependencies=lowest
 
 cache:
   apt: true
@@ -18,7 +25,10 @@ before_install:
 install:
   # Load composer dependencies.
   - composer validate --no-check-all --ansi
-  - composer install --optimize-autoloader
+  - composer install
+  - if [ -z "$dependencies" ]; then composer install --prefer-dist --optimize-autoloader -n; fi;
+  - if [ "$dependencies" = "lowest" ]; then composer update --prefer-dist --prefer-lowest --optimize-autoloader -n; fi;
+  - if [ "$dependencies" = "highest" ]; then composer update --prefer-dist --optimize-autoloader -n; fi;
 
 before_script:
   # Verify that no git diffs (caused by line ending variation) exist.
