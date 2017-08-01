@@ -141,6 +141,11 @@ class Expander
                 break;
             }
 
+            // If the value is _only_ a placeholder. Don't replace it yet.
+            if (preg_match('\$\{([^\$}]+)\}', $value)) {
+                break;
+            }
+
             // Set value on $data object.
             if ($parent_keys) {
                 $full_key = $parent_keys . "$key";
