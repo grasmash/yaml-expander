@@ -31,5 +31,4 @@ product-name: ${${type}.title}
 boolean-value: true
 null-value: null
 inline-array: [ one, two, three ]
-# Attempt to reference an entire array rather than a string. This is invalid.
-expand-array: ${book}
+expand-array: ${inline-array}
