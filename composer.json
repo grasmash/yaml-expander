@@ -4,7 +4,7 @@
     "type": "library",
     "require": {
         "php": ">=5.4",
-        "symfony/yaml":                   "^2.8.11|^3",
+        "symfony/yaml":                   "^2.8.11|^3.0|~4.0",
         "dflydev/dot-access-data":        "^1.1.0"
     },
     "license": "MIT",
