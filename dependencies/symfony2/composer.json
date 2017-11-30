@@ -4,7 +4,6 @@
     "type": "library",
     "require": {
         "php": ">=5.4",
-        "symfony/yaml":                   "^2.8.11|^3|^4",
         "dflydev/dot-access-data":        "^1.1.0"
     },
     "license": "MIT",
@@ -22,7 +21,8 @@
     "require-dev": {
         "phpunit/phpunit": "^4.8|^5.5.4",
         "satooshi/php-coveralls": "^1.0.2|dev-master",
-        "squizlabs/php_codesniffer": "^2.7"
+        "squizlabs/php_codesniffer": "^2.7",
+        "symfony/yaml": "^2.8"
     },
     "scripts": {
         "cs": "phpcs -n --standard=PSR2 src tests --exclude=Generic.Files.LineLength",
@@ -44,8 +44,9 @@
         "optimize-autoloader": true,
         "sort-packages": true,
         "platform": {
-            "php": "5.5"
-        }
+            "php": "5.4"
+        },
+        "vendor-dir": "../../vendor"
     },
     "extra": {
         "branch-alias": {
