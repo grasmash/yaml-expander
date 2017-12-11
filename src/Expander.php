@@ -27,7 +27,7 @@ class Expander
      *   The modified array in which placeholders have been replaced with
      *   values.
      */
-    public static function parse($yaml_string, $reference_array = [])
+    public static function parse($yaml_string, &$reference_array = [])
     {
         $array = Yaml::parse($yaml_string);
         return self::expandArrayProperties($array, $reference_array);
@@ -46,7 +46,7 @@ class Expander
      *   The modified array in which placeholders have been replaced with
      *   values.
      */
-    public static function expandArrayProperties($array, $reference_array = [])
+    public static function expandArrayProperties(&$array, &$reference_array = [])
     {
         $data = new Data($array);
         if ($reference_array) {
@@ -74,12 +74,24 @@ class Expander
      *   reference to provide supplemental values for property expansion.
      */
     protected static function doExpandArrayProperties(
-        $data,
-        $array,
+        &$data,
+        &$array,
         $parent_keys = '',
         $reference_data = null
     ) {
         foreach ($array as $key => $value) {
+            if (strpos($key, '${') !== false) {
+                $expanded_key = self::expandStringProperties($data, '', $reference_data, $key, '');
+                unset($array[$key]);
+                $raw_data = $data->export();
+                unset($raw_data[$key]);
+                unset($data);
+                $key = $expanded_key;
+                $raw_data[$key] = $value;
+                $data = new Data($raw_data);
+                $array[$key] = $value;
+            }
+
             // Boundary condition(s).
             if (is_null($value) || is_bool($value)) {
                 continue;
@@ -113,7 +125,7 @@ class Expander
      * @return mixed
      */
     protected static function expandStringProperties(
-        $data,
+        &$data,
         $parent_keys,
         $reference_data,
         $value,
@@ -142,12 +154,14 @@ class Expander
             }
 
             // Set value on $data object.
-            if ($parent_keys) {
-                $full_key = $parent_keys . "$key";
-            } else {
-                $full_key = $key;
+            if ($key) {
+                if ($parent_keys) {
+                    $full_key = $parent_keys . "$key";
+                } else {
+                    $full_key = $key;
+                }
+                $data->set($full_key, $value);
             }
-            $data->set($full_key, $value);
         }
         return $value;
     }
@@ -260,6 +274,6 @@ class Expander
      */
     public static function log($message)
     {
-        // print "$message\n";
+        print "$message\n";
     }
 }

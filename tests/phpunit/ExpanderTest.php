@@ -28,6 +28,9 @@ class ExpanderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('${book.media.1}, hardcover', $expanded['available-products']);
         $this->assertEquals('Dune', $expanded['product-name']);
         $this->assertEquals(Yaml::dump($array['inline-array'], 0), $expanded['expand-array']);
+        $this->assertArrayNotHasKey('${inline-array.0}', $expanded);
+        $this->assertArrayHasKey('one', $expanded);
+        $this->assertEquals('1', $expanded['one']);
 
         $expanded = Expander::expandArrayProperties($array, $reference_array);
         $this->assertEquals('Dune Messiah, and others.', $expanded['sequels']);
