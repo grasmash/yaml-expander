@@ -32,3 +32,4 @@ boolean-value: true
 null-value: null
 inline-array: [ one, two, three ]
 expand-array: ${inline-array}
+env-test: ${env.test}
