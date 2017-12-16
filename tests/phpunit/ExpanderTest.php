@@ -21,7 +21,7 @@ class ExpanderTest extends \PHPUnit_Framework_TestCase
     public function testExpandArrayProperties($filename, $reference_array)
     {
         $array = Yaml::parse(file_get_contents(__DIR__ . "/../resources/$filename"));
-        $_ENV['test'] = 'gomjabbar';
+        putenv("test=gomjabbar");
         $expanded = Expander::expandArrayProperties($array);
         $this->assertEquals('gomjabbar', $expanded['env-test']);
         $this->assertEquals('Frank Herbert 1965', $expanded['book']['copyright']);

@@ -244,8 +244,8 @@ class Expander
         if (strpos($property_name, "env.") === 0 &&
           !$data->has($property_name)) {
             $env_key = substr($property_name, 4);
-            if (!empty($_ENV) && array_key_exists($env_key, $_ENV)) {
-                $data->set($property_name, $_ENV[$env_key]);
+            if (getenv($env_key)) {
+                $data->set($property_name, getenv($env_key));
             }
         }
 
