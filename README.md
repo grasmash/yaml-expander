@@ -31,6 +31,7 @@ characters:
     occupation: Swordmaster
 summary: ${book.title} by ${book.author}
 product-name: ${${type}.title}
+timezone: ${env.TZ}
 ```
 
 Property references use dot notation to indicate array keys, and must be wrapped in `${}`.
@@ -39,6 +40,9 @@ Expansion logic:
 
 ```php
 <?php
+
+// Set an environmental variable, accessible via ${env.TZ}.
+putenv("TZ=ES");
 
 // Parse a yaml string directly, expanding internal property references.
 $yaml_string = file_get_contents("dune.yml");
