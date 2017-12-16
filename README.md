@@ -100,5 +100,6 @@ array (
   ),
   'summary' => 'Dune by Frank Herbert',
   'product-name' => 'Dune',
+  'timezone' => 'ES',
 );
 ```
