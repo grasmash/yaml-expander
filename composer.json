@@ -4,8 +4,9 @@
     "type": "library",
     "require": {
         "php": ">=5.4",
-        "symfony/yaml":                   "^2.8.11|^3|^4",
-        "dflydev/dot-access-data":        "^1.1.0"
+        "dflydev/dot-access-data": "^1.1.0",
+        "grasmash/expander": "dev-master",
+        "symfony/yaml": "^2.8.11|^3|^4"
     },
     "license": "MIT",
     "authors": [
@@ -48,7 +49,7 @@
         "optimize-autoloader": true,
         "sort-packages": true,
         "platform": {
-            "php": "5.5.9"
+            "php": "7.1"
         }
     },
     "extra": {
