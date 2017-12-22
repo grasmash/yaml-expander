@@ -4,8 +4,9 @@
     "type": "library",
     "require": {
         "php": ">=5.4",
-        "symfony/yaml":                   "^2.8.11|^3|^4",
-        "dflydev/dot-access-data":        "^1.1.0"
+        "dflydev/dot-access-data": "^1.1.0",
+        "grasmash/expander": "^1.0.0",
+        "symfony/yaml": "^2.8.11|^3|^4"
     },
     "license": "MIT",
     "authors": [
@@ -16,7 +17,7 @@
     "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
-            "Grasmash\\YamlExpander\\":        "src/"
+            "Grasmash\\YamlExpander\\": "src/"
         }
     },
     "require-dev": {
@@ -55,7 +56,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.x-dev"
+            "dev-master": "2.x-dev"
         }
     }
 }

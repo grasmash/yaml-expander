@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "64e9451bec950a6808b3003d54bd0f27",
+    "content-hash": "7930cf3afdba0b8dc84256478b201fcb",
     "packages": [
         {
             "name": "dflydev/dot-access-data",
@@ -67,16 +67,16 @@
         },
         {
             "name": "grasmash/expander",
-            "version": "dev-master",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/grasmash/expander.git",
-                "reference": "a7444080b4562f67aaa0569b91ad3e4afb701f84"
+                "reference": "95d6037344a4be1dd5f8e0b0b2571a28c397578f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/grasmash/expander/zipball/a7444080b4562f67aaa0569b91ad3e4afb701f84",
-                "reference": "a7444080b4562f67aaa0569b91ad3e4afb701f84",
+                "url": "https://api.github.com/repos/grasmash/expander/zipball/95d6037344a4be1dd5f8e0b0b2571a28c397578f",
+                "reference": "95d6037344a4be1dd5f8e0b0b2571a28c397578f",
                 "shasum": ""
             },
             "require": {
@@ -85,7 +85,7 @@
             },
             "require-dev": {
                 "greg-1-anderson/composer-test-scenarios": "^1",
-                "phpunit/phpunit": "^5.5.4",
+                "phpunit/phpunit": "^4|^5.5.4",
                 "satooshi/php-coveralls": "^1.0.2|dev-master",
                 "squizlabs/php_codesniffer": "^2.7"
             },
@@ -110,7 +110,7 @@
                 }
             ],
             "description": "Expands internal property references in PHP arrays file.",
-            "time": "2017-12-21T16:20:07+00:00"
+            "time": "2017-12-21T22:14:55+00:00"
         },
         {
             "name": "symfony/yaml",
@@ -2258,7 +2258,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "grasmash/expander": 20,
         "satooshi/php-coveralls": 20
     },
     "prefer-stable": false,
