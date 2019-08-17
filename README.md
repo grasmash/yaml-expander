@@ -46,18 +46,18 @@ putenv("TZ=ES");
 
 // Parse a yaml string directly, expanding internal property references.
 $yaml_string = file_get_contents("dune.yml");
-$expanded = \Grasmash\YamlExpander\Expander::parse($yaml_string);
+$expanded = \Grasmash\YamlExpander\YamlExpander::parse($yaml_string);
 print_r($expanded);
 
 // Parse an array, expanding internal property references.
 $array = \Symfony\Component\Yaml\Yaml::parse(file_get_contents("dune.yml"));
-$expanded = \Grasmash\YamlExpander\Expander::expandArrayProperties($array);
+$expanded = \Grasmash\YamlExpander\YamlExpander::expandArrayProperties($array);
 print_r($expanded);
 
 // Parse an array, expanding references using both internal and supplementary values.
 $array = \Symfony\Component\Yaml\Yaml::parse(file_get_contents("dune.yml"));
 $reference_properties = ['book' => ['publication-year' => 1965]];
-$expanded = \Grasmash\YamlExpander\Expander::expandArrayProperties($array, $reference_properties);
+$expanded = \Grasmash\YamlExpander\YamlExpander::expandArrayProperties($array, $reference_properties);
 print_r($expanded);
 ````
 
