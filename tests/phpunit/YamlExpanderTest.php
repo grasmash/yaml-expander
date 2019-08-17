@@ -3,17 +3,17 @@
 namespace Grasmash\YamlExpander\Tests\Command;
 
 use Dflydev\DotAccessData\Data;
-use Grasmash\YamlExpander\Expander;
+use Grasmash\YamlExpander\YamlExpander;
 use Grasmash\YamlExpander\Stringifier;
 use Grasmash\YamlExpander\Tests\TestBase;
 use Psr\Log\NullLogger;
 use Symfony\Component\Yaml\Yaml;
 
-class ExpanderTest extends \PHPUnit_Framework_TestCase
+class YamlExpanderTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
-     * Tests Expander::expandArrayProperties().
+     * Tests YamlExpander::expandArrayProperties().
      *
      * @param string $filename
      * @param array $reference_array
@@ -24,7 +24,7 @@ class ExpanderTest extends \PHPUnit_Framework_TestCase
     {
         $array = Yaml::parse(file_get_contents(__DIR__ . "/../resources/$filename"));
         putenv("test=gomjabbar");
-        $expander = new Expander(new NullLogger());
+        $expander = new YamlExpander(new NullLogger());
         $expanded = $expander->expandArrayProperties($array);
         $this->assertEquals('gomjabbar', $expanded['env-test']);
         $this->assertEquals('Frank Herbert 1965', $expanded['book']['copyright']);
@@ -40,7 +40,7 @@ class ExpanderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests Expander::parse().
+     * Tests YamlExpander::parse().
      *
      * @param string $filename
      * @param array $reference_array
@@ -50,7 +50,7 @@ class ExpanderTest extends \PHPUnit_Framework_TestCase
     public function testParse($filename, $reference_array)
     {
         $yaml_string = file_get_contents(__DIR__ . "/../resources/$filename");
-        $expander = new Expander(new NullLogger());
+        $expander = new YamlExpander(new NullLogger());
         $expanded = $expander->parse($yaml_string);
         $this->assertEquals('Frank Herbert 1965', $expanded['book']['copyright']);
         $this->assertEquals('Paul Atreides', $expanded['book']['protaganist']);
@@ -78,7 +78,7 @@ class ExpanderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests Expander::expandProperty().
+     * Tests YamlExpander::expandProperty().
      */
     public function testStringifyArray()
     {
