@@ -3,15 +3,14 @@
 namespace Grasmash\YamlExpander;
 
 use Psr\Log\LoggerInterface;
-use Psr\Log\NullLogger;
 use Symfony\Component\Yaml\Yaml;
-use Grasmash\Expander\Expander as GrasmashExpander;
+use Grasmash\Expander\Expander;
 
 /**
- * Class Expander
+ * Class YamlExpander
  * @package Grasmash\YamlExpander
  */
-class Expander
+class YamlExpander
 {
     /**
      * @var \Psr\Log\LoggerInterface
@@ -24,14 +23,14 @@ class Expander
     protected $expander;
 
     /**
-     * Expander constructor.
+     * YamlExpander constructor.
      *
      * @param \Psr\Log\LoggerInterface $logger
      */
     public function __construct(LoggerInterface $logger)
     {
         $this->logger = $logger;
-        $this->expander =  new GrasmashExpander();
+        $this->expander =  new Expander();
         $this->expander->setLogger($logger);
         $this->expander->setStringifier(new Stringifier());
     }
