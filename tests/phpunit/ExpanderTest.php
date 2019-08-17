@@ -4,7 +4,9 @@ namespace Grasmash\YamlExpander\Tests\Command;
 
 use Dflydev\DotAccessData\Data;
 use Grasmash\YamlExpander\Expander;
+use Grasmash\YamlExpander\Stringifier;
 use Grasmash\YamlExpander\Tests\TestBase;
+use Psr\Log\NullLogger;
 use Symfony\Component\Yaml\Yaml;
 
 class ExpanderTest extends \PHPUnit_Framework_TestCase
@@ -22,7 +24,8 @@ class ExpanderTest extends \PHPUnit_Framework_TestCase
     {
         $array = Yaml::parse(file_get_contents(__DIR__ . "/../resources/$filename"));
         putenv("test=gomjabbar");
-        $expanded = Expander::expandArrayProperties($array);
+        $expander = new Expander(new NullLogger());
+        $expanded = $expander->expandArrayProperties($array);
         $this->assertEquals('gomjabbar', $expanded['env-test']);
         $this->assertEquals('Frank Herbert 1965', $expanded['book']['copyright']);
         $this->assertEquals('Paul Atreides', $expanded['book']['protaganist']);
@@ -31,7 +34,7 @@ class ExpanderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Dune', $expanded['product-name']);
         $this->assertEquals(Yaml::dump($array['inline-array'], 0), $expanded['expand-array']);
 
-        $expanded = Expander::expandArrayProperties($array, $reference_array);
+        $expanded = $expander->expandArrayProperties($array, $reference_array);
         $this->assertEquals('Dune Messiah, and others.', $expanded['sequels']);
         $this->assertEquals('Dune Messiah', $expanded['book']['nested-reference']);
     }
@@ -47,13 +50,14 @@ class ExpanderTest extends \PHPUnit_Framework_TestCase
     public function testParse($filename, $reference_array)
     {
         $yaml_string = file_get_contents(__DIR__ . "/../resources/$filename");
-        $expanded = Expander::parse($yaml_string);
+        $expander = new Expander(new NullLogger());
+        $expanded = $expander->parse($yaml_string);
         $this->assertEquals('Frank Herbert 1965', $expanded['book']['copyright']);
         $this->assertEquals('Paul Atreides', $expanded['book']['protaganist']);
         $this->assertEquals('Dune by Frank Herbert', $expanded['summary']);
         $this->assertEquals('${book.media.1}, hardcover', $expanded['available-products']);
 
-        $expanded = Expander::parse($yaml_string, $reference_array);
+        $expanded = $expander->parse($yaml_string, $reference_array);
         $this->assertEquals('Dune Messiah, and others.', $expanded['sequels']);
         $this->assertEquals('Dune Messiah', $expanded['book']['nested-reference']);
     }
@@ -75,25 +79,15 @@ class ExpanderTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Tests Expander::expandProperty().
-     *
-     * @dataProvider providerTestExpandProperty
      */
-    public function testExpandProperty($array, $property_name, $unexpanded_string, $expected)
+    public function testStringifyArray()
     {
-        $data = new Data($array);
-        $expanded_value = Expander::expandProperty($property_name, $unexpanded_string, $data);
-
-        $this->assertEquals($expected, $expanded_value);
-    }
-
-    /**
-     * @return array
-     */
-    public function providerTestExpandProperty()
-    {
-        return [
-            [ ['author' => 'Frank Herbert'], 'author', '${author}', 'Frank Herbert' ],
-            [ ['book' =>  ['author' => 'Frank Herbert' ]], 'book.author', '${book.author}', 'Frank Herbert' ],
+        $array =  [
+          0 => 'one',
+          1 => 'two',
+          2 => 'three',
         ];
+        $string = Stringifier::stringifyArray($array);
+        $this->assertEquals('[one, two, three]', $string);
     }
 }
