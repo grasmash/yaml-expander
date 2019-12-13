@@ -8,8 +8,9 @@ use Grasmash\YamlExpander\Stringifier;
 use Grasmash\YamlExpander\Tests\TestBase;
 use Psr\Log\NullLogger;
 use Symfony\Component\Yaml\Yaml;
+use \PHPUnit\Framework\TestCase;
 
-class YamlExpanderTest extends \PHPUnit_Framework_TestCase
+class YamlExpanderTest extends TestCase
 {
 
     /**
