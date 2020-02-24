@@ -24,11 +24,15 @@ cache:
   - "$HOME/.composer/cache"
   - "vendor"
 
+before_install:
+  - composer selfupdate
+
 install:
-  - 'composer "${HIGHEST_LOWEST-install}" --prefer-dist'
+  - composer validate --no-check-all --ansi
+  - 'composer -n ${HIGHEST_LOWEST-install} --prefer-dist -o'
 
 script:
   - composer test
 
 after_success:
-  - travis_retry php vendor/bin/coveralls -v
+  - travis_retry php vendor/bin/coveralls -vvv
