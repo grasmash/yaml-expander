@@ -1,23 +1,20 @@
 language: php
 
-branches:
-  # Only test the master branch and SemVer tags.
-  only:
-    - master
-    - /^[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+.*$/
-
+# @see https://pantheon.io/blog/highest-lowest-testing-multiple-symfony-versions
 matrix:
-  fast_finish: true
   include:
-    - php: 7.2
-      env: 'SCENARIO=symfony4 HIGHEST_LOWEST="update"'
-    - php: 7.1
-      env: 'SCENARIO=symfony4'
-    - php: 7.0.11
+    - php: 7.4
+      # Resolves to Symfony 5.
       env: 'HIGHEST_LOWEST="update"'
-    - php: 7.0.11
-    - php: 5.6
-      env: 'SCENARIO=symfony2 HIGHEST_LOWEST="update --prefer-lowest'
+    - php: 7.3
+      # Resolves to Symfony 5.
+      env: 'HIGHEST_LOWEST="update"'
+    - php: 7.2
+      # Resolves to Symfony 5.
+      env: 'HIGHEST_LOWEST="update"'
+    - php: 7.1
+      # Resolves to Symfony 4.
+      env: 'HIGHEST_LOWEST="update --prefer-lowest"'
 
 sudo: false
 
@@ -28,7 +25,7 @@ cache:
   - "vendor"
 
 install:
-  - 'composer scenario "${SCENARIO}" "${HIGHEST_LOWEST-install}"'
+  - 'composer "${HIGHEST_LOWEST-install}" --prefer-dist'
 
 script:
   - composer test
