@@ -6,10 +6,11 @@ use Dflydev\DotAccessData\Data;
 use Grasmash\YamlExpander\YamlExpander;
 use Grasmash\YamlExpander\Stringifier;
 use Grasmash\YamlExpander\Tests\TestBase;
+use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;
 use Symfony\Component\Yaml\Yaml;
 
-class YamlExpanderTest extends \PHPUnit_Framework_TestCase
+class YamlExpanderTest extends TestCase
 {
 
     /**

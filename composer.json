@@ -20,8 +20,8 @@
         }
     },
     "require-dev": {
-        "phpunit/phpunit": "^5.5.4",
-        "satooshi/php-coveralls": "^1.0.2|dev-master",
+        "phpunit/phpunit": "^8.2",
+        "php-coveralls/php-coveralls": "^2.1",
         "squizlabs/php_codesniffer": "^2.7"
     },
     "scripts": {
