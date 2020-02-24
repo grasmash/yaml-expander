@@ -12,9 +12,6 @@ matrix:
     - php: 7.2
       # Resolves to Symfony 5.
       env: 'HIGHEST_LOWEST="update"'
-    - php: 7.1
-      # Resolves to Symfony 4.
-      env: 'HIGHEST_LOWEST="update --prefer-lowest"'
 
 sudo: false
 
