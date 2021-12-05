@@ -2,7 +2,6 @@
 
 namespace Grasmash\YamlExpander\Tests\Command;
 
-use Dflydev\DotAccessData\Data;
 use Grasmash\YamlExpander\YamlExpander;
 use Grasmash\YamlExpander\Stringifier;
 use Grasmash\YamlExpander\Tests\TestBase;

@@ -3,9 +3,8 @@
     "description": "Expands internal property references in a yaml file.",
     "type": "library",
     "require": {
-        "dflydev/dot-access-data": "^3.0.0",
         "grasmash/expander": "^1.0.0",
-        "symfony/yaml": "^4 | ^5"
+        "symfony/yaml": "^4 || ^5 || ^6"
     },
     "license": "MIT",
     "authors": [
@@ -20,9 +19,9 @@
         }
     },
     "require-dev": {
-        "phpunit/phpunit": "^8.2",
+        "phpunit/phpunit": "^8.0 || ^9",
         "php-coveralls/php-coveralls": "^2.1",
-        "squizlabs/php_codesniffer": "^2.7"
+        "squizlabs/php_codesniffer": "^2.7 || ^3.3"
     },
     "scripts": {
         "cs": "phpcs -n --standard=PSR2 src tests --exclude=Generic.Files.LineLength",

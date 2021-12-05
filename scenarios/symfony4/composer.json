@@ -4,7 +4,6 @@
     "type": "library",
     "require": {
         "php": ">=5.6",
-        "dflydev/dot-access-data": "^1.1.0",
         "grasmash/expander": "^1.0.0",
         "symfony/yaml": "^3|^4"
     },
