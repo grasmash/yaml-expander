@@ -3,7 +3,7 @@
     "description": "Expands internal property references in a yaml file.",
     "type": "library",
     "require": {
-        "grasmash/expander": "^1.0.0",
+        "grasmash/expander": "^1.0.0 || ^2",
         "symfony/yaml": "^4 || ^5 || ^6"
     },
     "license": "MIT",
