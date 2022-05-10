@@ -2,10 +2,6 @@
     "name": "grasmash/yaml-expander",
     "description": "Expands internal property references in a yaml file.",
     "type": "library",
-    "require": {
-        "grasmash/expander": "^1 || ^2 || ^3",
-        "symfony/yaml": "^4 || ^5 || ^6"
-    },
     "license": "MIT",
     "authors": [
         {
@@ -13,6 +9,15 @@
         }
     ],
     "minimum-stability": "stable",
+    "require": {
+        "grasmash/expander": "^1 || ^2 || ^3",
+        "symfony/yaml": "^4 || ^5 || ^6"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.0 || ^9",
+        "php-coveralls/php-coveralls": "^2.1",
+        "squizlabs/php_codesniffer": "^2.7 || ^3.3"
+    },
     "autoload": {
         "psr-4": {
             "Grasmash\\YamlExpander\\": "src/"
@@ -22,11 +27,6 @@
         "psr-4": {
             "Grasmash\\YamlExpander\\Tests\\": "tests/src/"
         }
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^8.0 || ^9",
-        "php-coveralls/php-coveralls": "^2.1",
-        "squizlabs/php_codesniffer": "^2.7 || ^3.3"
     },
     "scripts": {
         "cs": "phpcs",
@@ -49,10 +49,5 @@
     "config": {
         "optimize-autoloader": true,
         "sort-packages": true
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "3.x-dev"
-        }
     }
 }
