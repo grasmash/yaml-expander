@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/grasmash/yaml-expander.svg?branch=master)](https://travis-ci.org/grasmash/yaml-expander) [![Packagist](https://img.shields.io/packagist/v/grasmash/yaml-expander.svg)](https://packagist.org/packages/grasmash/yaml-expander)
+[![CI](https://github.com/grasmash/yaml-expander/actions/workflows/php.yml/badge.svg)](https://github.com/grasmash/yaml-expander/actions/workflows/php.yml) [![Packagist](https://img.shields.io/packagist/v/grasmash/yaml-expander.svg)](https://packagist.org/packages/grasmash/yaml-expander)
 [![Total Downloads](https://poser.pugx.org/grasmash/yaml-expander/downloads)](https://packagist.org/packages/grasmash/yaml-expander) [![Coverage Status](https://coveralls.io/repos/github/grasmash/yaml-expander/badge.svg?branch=master)](https://coveralls.io/github/grasmash/yaml-expander?branch=master)
 
 This tool expands property references in YAML files.
