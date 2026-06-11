@@ -1,27 +1,14 @@
 <?xml version="1.0"?>
 <!-- phpunit.xml.dist -->
-<phpunit
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
-        cacheResultFile="build/.phpunit.result.cache"
-        failOnWarning="true"
-        failOnRisky="true"
-        convertErrorsToExceptions="true"
-        convertNoticesToExceptions="true"
-        convertWarningsToExceptions="true"
->
-  <coverage processUncoveredFiles="true">
-    <include>
-      <directory suffix=".php">src</directory>
-    </include>
-    <report>
-      <clover outputFile="build/logs/clover.xml"/>
-    </report>
-  </coverage>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/13.2/phpunit.xsd" failOnWarning="true" failOnRisky="true" cacheDirectory=".phpunit.cache">
   <testsuites>
     <testsuite name="Yaml Expander Test Suite">
       <directory>tests/src</directory>
     </testsuite>
   </testsuites>
-  <logging/>
+  <source>
+    <include>
+      <directory suffix=".php">src</directory>
+    </include>
+  </source>
 </phpunit>

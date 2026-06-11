@@ -1,11 +1,12 @@
 # Releasing
 
-### Execute tests
+1. Ensure the test suite passes:
 
-    ./scripts/run-tests.sh
+       composer test
 
-To quickly fix PHPCS issues:
+2. To quickly fix PHPCS issues:
 
-    ./scripts/clean-code.sh
-    
+       composer cbf
 
+3. Tag a new release following [semantic versioning](https://semver.org/) and
+   push the tag. Packagist will pick it up automatically.

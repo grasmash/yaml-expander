@@ -4,7 +4,7 @@ book:
   title: Dune
   author: Frank Herbert
   copyright: ${book.author} 1965
-  protaganist: ${characters.0.name}
+  protagonist: ${characters.0.name}
   media:
     - hardcover
   # Use a nested key to reference an external value.
